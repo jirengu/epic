@@ -43,8 +43,12 @@ function Component() {
         <StyledLink to="/about" activeClassName="active">关于我</StyledLink>
       </nav>
       <Login>
-        <Button>登录</Button>
-        <Button>注册</Button>
+        <Button>
+          <StyledLink to="/login">登录</StyledLink>
+        </Button>
+        <Button>
+          <StyledLink to="/register">注册</StyledLink>
+        </Button>
       </Login>
 
     </Header>
