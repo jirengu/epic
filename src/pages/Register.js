@@ -1,6 +1,8 @@
 import React from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 import styled from 'styled-components';
+import { useStores } from '../stores';
+import { useHistory } from 'react-router-dom';
 
 
 const Wraper = styled.div`
@@ -33,8 +35,21 @@ const tailLayout = {
 };
 
 const Component = () => {
+  const { AuthStore } = useStores();
+  const history = useHistory();
+
+
   const onFinish = values => {
     console.log('Success:', values);
+    AuthStore.setUsername(values.username);
+    AuthStore.setPassword(values.password);
+    AuthStore.register()
+      .then(() => {
+        console.log('注册成功, 跳转到首页')
+        history.push('/')
+      }).catch(() => {
+        console.log('登录失败，什么都不做')
+      });
   };
 
   const onFinishFailed = errorInfo => {
@@ -44,7 +59,7 @@ const Component = () => {
   const validateUsername = (rule, value) => {
     if(/\W/.test(value)) return Promise.reject('只能是字母数字下划线');
     if(value.length < 4 || value.length > 10) return Promise.reject('长度为4～10个字符');
-    Promise.resolve();
+    return Promise.resolve();
   };
   
   const validateConfirm = ({getFieldValue}) => ({
@@ -52,7 +67,7 @@ const Component = () => {
       if(getFieldValue('password') === value) return Promise.resolve();
       return Promise.reject('两次密码不一致');
     }
-  })
+  });
 
 
 
