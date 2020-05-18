@@ -32,11 +32,27 @@ const Auth = {
     return User.current();
   }
 
+};
+
+const Uploader = {
+  add(file, filename) {
+    const item = new AV.Object('Image');
+    const avFile = new AV.File(filename, file);
+    item.set('filename', filename);
+    item.set('owner', AV.User.current());
+    item.set('url', avFile);
+    return new Promise((resolve, reject) => {
+      item.save().then(serverFile => resolve(serverFile), error => reject(error));
+    });
+  }
 }
 
 
 
 
+
+
 export {
-  Auth
+  Auth,
+  Uploader
 };
