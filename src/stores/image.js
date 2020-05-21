@@ -34,6 +34,11 @@ class ImageStore {
       
   }
 
+  @action reset() {
+    this.isUpoading = false;
+    this.serverFile = null;
+  }
+
 
 }
 
